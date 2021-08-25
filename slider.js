@@ -3,6 +3,7 @@ const slidesToShow = 1;
 const slidesToScroll = 1;
 let itemsLeft = 0;
 let leftSlides = 0;
+let currentSlide = 1;
 
 const wrapper = document.querySelector('.wrapper');
 const sliderContainer = document.querySelector('.slider-container')
@@ -42,13 +43,19 @@ const setCounters = ()=>{
     const divider = document.createElement('span');
     divider.innerText = '/'
     leftSlides = document.createElement('span');
-    leftSlides.innerHTML = '0'
 
     counterWrapper.appendChild(totalItems)
     counterWrapper.appendChild(divider)
     counterWrapper.appendChild(leftSlides);
-    counterWrapper.classList.add('counters')
+    counterWrapper.classList.add('counters');
     wrapper.appendChild(counterWrapper);
+
+    sliderItems.forEach((item,index)=>{
+        if(item.classList.contains('active')){
+            leftSlides.innerHTML = currentSlide
+
+        }
+    })
 }
 
 
@@ -61,7 +68,9 @@ btnNext.addEventListener('click',()=>{
     itemsLeft = sliderCount -  (Math.abs(position) + slidesToShow * itemWidth) / itemWidth;
 
     position -= itemsLeft >= slidesToScroll ? movePosition : itemsLeft * itemWidth;
-    (itemCount++)
+
+        leftSlides.innerHTML = ++currentSlide
+
 
     // sliderTrack.style.transform = `translateX(${position}px)`
     setPosition(position);
@@ -74,7 +83,7 @@ btnPrev.addEventListener('click',()=>{
 
     position += itemsLeft >= slidesToScroll ? movePosition : itemsLeft * itemWidth;
 
-    leftSlides.innerHTML = slidesToScroll * 2;
+    leftSlides.innerHTML = --currentSlide
     // sliderTrack.style.transform = `translateX(${position}px)`
     setPosition(position);
     checkButtons()
